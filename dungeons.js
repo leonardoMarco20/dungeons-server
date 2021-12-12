@@ -8,7 +8,6 @@ const requestListener = function (requ, res) {
 	res.end('My first server!');
 }
 
-  
 
 const server = http.createServer(requestListener);
 
