@@ -1,0 +1,30 @@
+{
+  "name": "dungeons-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dungeons.js",
+  "dependencies": {
+    "body-parser": "^1.19.1",
+    "ejs": "^3.1.6",
+    "express": "^4.17.2",
+    "mongodb": "^4.2.2",
+    "mongoose": "^6.1.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon dungeons.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leonardoMarco20/dungeons-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leonardoMarco20/dungeons-server/issues"
+  },
+  "homepage": "https://github.com/leonardoMarco20/dungeons-server#readme"
+}
