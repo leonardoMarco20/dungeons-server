@@ -2,9 +2,6 @@ const express = require("express");
 const mongoose = require('mongoose');
 const app = express()
 
-
-const { MongoClient } = require('mongodb');
-
 app.use(express.json())
 
 //Rotas API
@@ -14,6 +11,7 @@ app.use('/record', recordRoutes)
 
 const uri = "mongodb+srv://leo:2006@cluster0.qpzc1.mongodb.net/dungeons?retryWrites=true&w=majority"
 
+const port = 3000
 
 app.get('/', (req, res) => {
 	res.send('Leo XD')
@@ -21,6 +19,7 @@ app.get('/', (req, res) => {
 
 mongoose.connect(uri)
 	.then(() =>{
-		app.listen(3000)
+		app.listen(port)
+		console.log('The orcs army is approaching in the gate', port)
 	})
 	.catch(err => console.log(err))

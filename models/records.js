@@ -1,8 +1,15 @@
-const mongoose = require("mongoose")
+const Mongoose = require("mongoose")
+const Joi = require('joi')
+const Joigoose = require('joigoose')(Mongoose);
 
-const Record = mongoose.model('record', {
-  name: String,
-  surname: String,
+
+var joiRecordSchema = Joi.object({
+  name: Joi.string().required().error(new Error('Name is required!')),
+  surname: Joi.string().required().error(new Error('Surname is required!'))
 })
 
-module.exports = Record
+var mongooseRecordSchema = new Mongoose.Schema(
+  Joigoose.convert(joiRecordSchema)
+)
+
+module.exports = Mongoose.model('record', mongooseRecordSchema)
