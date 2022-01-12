@@ -1,8 +1,22 @@
 const router = require('express').Router()
+const express = require("express");
 const Record = require('../models/records')
+const cors = require('cors');
+
+const corsOptions = {
+  "origin": "*",
+  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+  "preflightContinue": false,
+  "optionsSuccessStatus": 204
+}
+
+const app = express()
+
+//app.use(cors(corsOptions));
+
 
 //READ ALL
-router.get('/', async (req, res) =>{
+router.get('/',cors(corsOptions) ,async (req, res) =>{
   try {
     const record = await Record.find()
     res.status(200).json(record)
