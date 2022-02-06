@@ -14,9 +14,31 @@ const Record = require('../models/records')
 
 //READ ALL
 router.get('/', async (req, res) =>{
+  const page = parseInt(req.query.page)
+  const limit = parseInt(req.query.limit)
+
+  const startIndex = (page - 1) * limit
+  const endIndex = page * limit 
+
+  const results = {}
+
+  results.page = page
+  results.limit = limit
+
+  results.next = {
+    page: page + 1,
+    limit: limit
+  }
+
+  results.previous = {
+    page: page + 1,
+    limit: limit
+  }
+  
   try {
-    const record = await Record.find()
-    res.status(200).json(record)
+    results.results = await Record.find().then(results => results.slice(startIndex, endIndex))
+    console.log(results)
+    res.status(200).json(results)
 
   } catch (error) {
     res.status(500).json({error: error})
