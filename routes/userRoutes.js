@@ -1,18 +1,9 @@
-const router = require('express').Router()
 const express = require("express");
-const app = express()
-const Record = require('../models/records')
+const router = require('express').Router()
+const User = require('../models/users')
 
-/*const corsOptions = {
-  "origin": "*",
-  "headers": "*",
-  "methods": ['POST','GET','HEAD','PUT','PATCH','DELETE'],
-  "preflightContinue": false,
-  "optionsSuccessStatus": 204
-}*/
+const { checkAuthenticated } = require('../controllers/auth.js')
 
-
-//READ ALL
 router.get('/', async (req, res) =>{
   const page = parseInt(req.query.page)
   const limit = parseInt(req.query.limit)
@@ -36,7 +27,7 @@ router.get('/', async (req, res) =>{
   }
   
   try {
-    results.results = await Record.find().then(results => results.slice(startIndex, endIndex))
+    results.results = await User.find().then(results => results.slice(startIndex, endIndex))
     res.status(200).json(results)
 
   } catch (error) {
@@ -44,50 +35,44 @@ router.get('/', async (req, res) =>{
   }
 })
 
-//CREATE ONE
-router.post('/', async (req, res) => {
+router.post('/', checkAuthenticated, async (req, res) => {
+  console.log(req.body)
 	try {
-		await Record.create(req.body)
-		res.status(201).json({message: 'Ficha criada com sucesso!'})
+		await User.create(req.body)
+		res.status(201).json({message: 'Usuário criado com sucesso!'})
 
 	} catch (error) {
-		//res.status(500).json({error: error.errors['name'].message})
     res.status(500).json({error: error.errors})
 	}
 })
 
-//READ ONE
+/*
 router.get('/:id', async (req, res, next) =>{
   const id = req.params.id
 
   try {
-    const record = await Record.findOne({_id: id})
+    const User = await User.findOne({_id: id})
 
-    if (!record) {
-      res.status(422).json({message: 'Ficha não encontrada!'})
+    if (!User) {
+      res.status(422).json({message: 'Usuário não encontrado!'})
       return
     }
 
-    res.status(200).json(record)
+    res.status(200).json(User)
 
   } catch (error) {
     res.status(500).json({error: error})
   }
-})
-
-//UPDATE
-router.put('/:id', (req, res, next) =>{
-  
 });
 
 router.patch('/:id', async (req, res, next) =>{
   const id = req.params.id
   
   try {
-    const updatePerson = await Record.updateOne({_id: id}, req.body)
+    const updatePerson = await User.updateOne({_id: id}, req.body)
 
     if(updatePerson.matchedCount === 0) {
-      res.status(422).json({message: 'Ficha não encontrada!'})
+      res.status(422).json({message: 'Usuário não encontrado!'})
       return
     }
 
@@ -97,22 +82,23 @@ router.patch('/:id', async (req, res, next) =>{
   }
 
 });
+*/
 
-//DELETE
 router.delete('/:id', async (req, res, next) =>{
   const id = req.params.id
   
-  if (!await Record.findOne({_id: id})) {
-    res.status(422).json({message: 'Ficha não encontrada!'})
+  if (!await User.findOne({_id: id})) {
+    res.status(422).json({message: 'Usuário não encontrado!'})
     return
   }
 
   try {
-    await Record.deleteOne({_id: id})
+    await User.deleteOne({_id: id})
     res.status(200).json({message: 'Usuário removido com sucesso!'})
   } catch (error) {
     res.status(500).json({error: error})
   }
 });
+
 
 module.exports = router
