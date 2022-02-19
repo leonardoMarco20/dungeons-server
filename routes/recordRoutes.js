@@ -3,15 +3,6 @@ const express = require("express");
 const app = express()
 const Record = require('../models/records')
 
-/*const corsOptions = {
-  "origin": "*",
-  "headers": "*",
-  "methods": ['POST','GET','HEAD','PUT','PATCH','DELETE'],
-  "preflightContinue": false,
-  "optionsSuccessStatus": 204
-}*/
-
-
 //READ ALL
 router.get('/', async (req, res) =>{
   const page = parseInt(req.query.page)

@@ -1,7 +1,3 @@
-if (process.env.NODE_ENV !== 'production') {
-	require('dotenv').config()
-}
-
 const express = require("express");
 const mongoose = require('mongoose');
 const app = express();
@@ -18,11 +14,11 @@ app.use(bodyParser.json())
 //Rotas API
 const recordRoutes = require('./routes/recordRoutes')
 const userRoutes = require('./routes/userRoutes')
-const loginRoutes = require('./routes/loginRoutes')
 
 app.use('/record', recordRoutes)
 app.use('/user', userRoutes)
-app.use('/login', loginRoutes)
+
+require('./controllers/authController')(app)
 
 const uri = "mongodb+srv://leo:2006@dungeonscluster.qpzc1.mongodb.net/dungeons?retryWrites=true&w=majority"
 
@@ -30,9 +26,9 @@ const port = 3000
 
 app.use(express.json())
 
-app.get('/', (req, res) => {
+/*app.get('/', (req, res) => {
 	res.send('Leo XD')
-})
+})*/
 
 mongoose.connect(uri)
 	.then(() =>{

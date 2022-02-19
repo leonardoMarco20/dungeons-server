@@ -1,8 +1,6 @@
-const express = require("express");
 const router = require('express').Router()
-const User = require('../models/users')
 
-const { checkAuthenticated } = require('../controllers/auth.js')
+const User = require('../models/users')
 
 router.get('/', async (req, res) =>{
   const page = parseInt(req.query.page)
@@ -35,11 +33,15 @@ router.get('/', async (req, res) =>{
   }
 })
 
-router.post('/', checkAuthenticated, async (req, res) => {
-  console.log(req.body)
-	try {
-		await User.create(req.body)
-		res.status(201).json({message: 'Usuário criado com sucesso!'})
+router.post('/', async (req, res) => {
+  try {
+		//if (req.isAuthenticated) {
+      await User.create(req.body)
+      res.status(201).json({message: 'Usuário criado com sucesso!'})
+      //return next()
+    //}
+
+    //return res.redirect('/')
 
 	} catch (error) {
     res.status(500).json({error: error.errors})
