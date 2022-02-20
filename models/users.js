@@ -6,8 +6,8 @@ const bcrypt = require('bcryptjs')
 
 const joiUserSchema = Joi.object({
   name: Joi.string(),
-  email: Joi.string(), //Joi.string().required().error(new Error('Email is required!')),
-  password:Joi.string(), //Joi.required().error(new Error('password is required!')),
+  email: Joi.string().required().error(new Error('Email is required!')),
+  password: Joi.required().error(new Error('password is required!')),
 })
 
 const mongooseUserSchema = new Mongoose.Schema(

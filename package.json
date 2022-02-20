@@ -12,6 +12,7 @@
     "express": "^4.17.2",
     "joi": "^17.5.0",
     "joigoose": "^8.0.2",
+    "jsonwebtoken": "^8.5.1",
     "method-override": "^3.0.0",
     "mongodb": "^4.2.2",
     "mongoose": "^6.1.5"

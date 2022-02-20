@@ -13,22 +13,18 @@ app.use(bodyParser.json())
 
 //Rotas API
 const recordRoutes = require('./routes/recordRoutes')
-const userRoutes = require('./routes/userRoutes')
-
 app.use('/record', recordRoutes)
-app.use('/user', userRoutes)
+//const userRoutes = require('./routes/userRoutes')
+//app.use('/user', userRoutes)
 
+//CONTROLLERS
 require('./controllers/authController')(app)
+require('./controllers/projectController')(app)
 
 const uri = "mongodb+srv://leo:2006@dungeonscluster.qpzc1.mongodb.net/dungeons?retryWrites=true&w=majority"
-
 const port = 3000
 
 app.use(express.json())
-
-/*app.get('/', (req, res) => {
-	res.send('Leo XD')
-})*/
 
 mongoose.connect(uri)
 	.then(() =>{
