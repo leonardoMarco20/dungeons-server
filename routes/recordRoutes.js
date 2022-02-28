@@ -1,109 +1,19 @@
 const router = require('express').Router()
-const express = require("express");
-const app = express()
-const Record = require('../models/records')
+var recordController = require('../controllers/recordController')
 
-//READ ALL
-router.get('/', async (req, res) =>{
-  const page = parseInt(req.query.page)
-  const limit = parseInt(req.query.limit)
-
-  const startIndex = (page - 1) * limit
-  const endIndex = page * limit 
-
-  const results = {}
-
-  results.page = page
-  results.limit = limit
-
-  results.next = {
-    page: page + 1,
-    limit: limit
-  }
-
-  results.previous = {
-    page: page + 1,
-    limit: limit
-  }
-  
-  try {
-    results.results = await Record.find().then(results => results.slice(startIndex, endIndex))
-    res.status(200).json(results)
-
-  } catch (error) {
-    res.status(500).json({error: error})
-  }
-})
+//LIST PAGINATION
+router.get('/', recordController.recordList)
 
 //CREATE ONE
-router.post('/', async (req, res) => {
-	try {
-		await Record.create(req.body)
-		res.status(201).json({message: 'Ficha criada com sucesso!'})
-
-	} catch (error) {
-		//res.status(500).json({error: error.errors['name'].message})
-    res.status(500).json({error: error.errors})
-	}
-})
+router.post('/', recordController.recordCreate)
 
 //READ ONE
-router.get('/:id', async (req, res, next) =>{
-  const id = req.params.id
-
-  try {
-    const record = await Record.findOne({_id: id})
-
-    if (!record) {
-      res.status(422).json({message: 'Ficha não encontrada!'})
-      return
-    }
-
-    res.status(200).json(record)
-
-  } catch (error) {
-    res.status(500).json({error: error})
-  }
-})
+router.get('/:id', recordController.recordGet)
 
 //UPDATE
-router.put('/:id', (req, res, next) =>{
-  
-});
-
-router.patch('/:id', async (req, res, next) =>{
-  const id = req.params.id
-  
-  try {
-    const updatePerson = await Record.updateOne({_id: id}, req.body)
-
-    if(updatePerson.matchedCount === 0) {
-      res.status(422).json({message: 'Ficha não encontrada!'})
-      return
-    }
-
-    res.status(200).json(req.body)
-  } catch (error) {
-    res.status(500).json({error: error})
-  }
-
-});
+router.patch('/:id', recordController.recordUpdate);
 
 //DELETE
-router.delete('/:id', async (req, res, next) =>{
-  const id = req.params.id
-  
-  if (!await Record.findOne({_id: id})) {
-    res.status(422).json({message: 'Ficha não encontrada!'})
-    return
-  }
-
-  try {
-    await Record.deleteOne({_id: id})
-    res.status(200).json({message: 'Usuário removido com sucesso!'})
-  } catch (error) {
-    res.status(500).json({error: error})
-  }
-});
+router.delete('/:id', recordController.recordDelete);
 
 module.exports = router

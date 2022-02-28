@@ -5,7 +5,6 @@ const router = express.Router()
 router.use(authMiddleware)
 
 router.get('/', (req, res) =>{
-  console.log(req)
   res.send({ ok: true, user: req.userId })
 })
 

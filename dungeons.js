@@ -14,8 +14,6 @@ app.use(bodyParser.json())
 //Rotas API
 const recordRoutes = require('./routes/recordRoutes')
 app.use('/record', recordRoutes)
-//const userRoutes = require('./routes/userRoutes')
-//app.use('/user', userRoutes)
 
 //CONTROLLERS
 require('./controllers/authController')(app)
