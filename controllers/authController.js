@@ -7,9 +7,7 @@ const authConfig = require("../config/config.json")
 
 const User = require('../models/users')
 
-
 const router = express.Router()
-
 
 function generateToken (params = {}) {
   return jwt.sign(params, authConfig.secret, {

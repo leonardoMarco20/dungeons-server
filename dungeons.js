@@ -15,6 +15,9 @@ app.use(bodyParser.json())
 const recordRoutes = require('./routes/recordRoutes')
 app.use('/record', recordRoutes)
 
+const usersRoutes = require('./routes/usersRoutes')
+app.use('/users', usersRoutes)
+
 //CONTROLLERS
 require('./controllers/authController')(app)
 require('./controllers/projectController')(app)
