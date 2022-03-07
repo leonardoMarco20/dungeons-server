@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs')
 
 const joiUserSchema = Joi.object({
   name: Joi.string(),
-  email: Joi.string().required().error(new Error('Email is required!')),
+  email: Joi.string().required().email(),
   password: Joi.required().error(new Error('password is required!')),
 })
 
@@ -20,4 +20,4 @@ mongooseUserSchema.pre('save', async function(next) {
   next()
 })
 
-module.exports = Mongoose.model('user', mongooseUserSchema)
+module.exports = Mongoose.model('User', mongooseUserSchema)
