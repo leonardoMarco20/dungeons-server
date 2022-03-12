@@ -7,12 +7,13 @@ const bcrypt = require('bcryptjs')
 const joiUserSchema = Joi.object({
   name: Joi.string(),
   email: Joi.string().required().email(),
-  password: Joi.required().error(new Error('password is required!')),
+  password: Joi.required(),
 })
 
 const mongooseUserSchema = new Mongoose.Schema(
   Joigoose.convert(joiUserSchema)
 )
+
 
 mongooseUserSchema.pre('save', async function(next) {
   const hash = await bcrypt.hash(this.password, 10)
