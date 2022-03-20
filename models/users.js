@@ -25,6 +25,7 @@ const mongooseUserSchema = new Mongoose.Schema(
 
 
 mongooseUserSchema.pre('save', async function(next) {
+  console.log('oloco')
   const hash = await bcrypt.hash(this.password, 10)
   this.password = hash
   next()
