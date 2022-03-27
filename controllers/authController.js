@@ -33,21 +33,29 @@ router.post('/register', async (req, res) =>{
 
 router.patch('/register/:id', async (req, res) => {
   try {
-    var {email, password} = req.body
+    var {name, email, password, color} = req.body
     const id = req.params.id
     
+    //Validate password
     if(password) {
       const hash = await bcrypt.hash(password, 10)
       password = hash
       req.body.password = hash
-      console.log('caiu no password')
     }
 
-    var validateEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    //Validate name
+    if(!name) return res.status(400).send({ error: {name : 'Invalid name' } })
     
-    if(!email && !email.match(validateEmail)) 
-      return res.status(400).send({ error: 'Invalid email' })
+    //Validate email
+    var validateEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if(!email.match(validateEmail)) return res.status(400).send({ error: { email : 'Invalid email' } })
         
+    // Validate color
+    if(!color) req.body.color = {
+      label: 'Verde',
+      value: '#27e8a7'
+    }
+
     const user = await User.updateOne({_id: id}, req.body)
 
     if(user.matchedCount === 0) {

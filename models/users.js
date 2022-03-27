@@ -6,17 +6,9 @@ const bcrypt = require('bcryptjs')
 
 const joiUserSchema = Joi.object({
   name: Joi.string(),
-  email: Joi.string().required().email().messages({
-    'string.empty': 'Cannot be empty',
-    'number.base': 'Must be a number',
-    'any.invalid': 'Value not valid',
-    'domain.invalid': 'Domain not valid',
-    'email.invalid': 'Email not valid',
-    'phoneNumber.invalid': 'Phone Number not valid',
-    'array.unique': 'contains a duplicate value',
-    'custom.max11char': 'Maximum 11 alphanumeric characters. Start with a letter'
-  }),
+  email: Joi.string().required().email(),
   password: Joi.required(),
+  color: Joi.object().required()
 })
 
 const mongooseUserSchema = new Mongoose.Schema(
