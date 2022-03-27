@@ -37,14 +37,14 @@ exports.recordList = async function(req, res) {
 }
 
 exports.recordCreate =  async function(req, res) {
-	try {
-		await Record.create(req.body)
-		res.status(201).json({message: 'Ficha criada com sucesso!'})
-
-	} catch (error) {
-		//res.status(500).json({error: error.errors['name'].message})
-    res.status(500).json({error: error.errors})
-	}
+	Record.validate(req.body)
+  .then(async () => {
+    await Record.create(req.body)
+		res.status(201).json({message: 'Ficha criada com sucesso!'})    
+  })
+  .catch(err=>{
+    res.status(402).send({ error: err.errors })
+  })
 }
 
 exports.recordGet = async (req, res, next) =>{

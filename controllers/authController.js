@@ -18,7 +18,7 @@ function generateToken (params = {}) {
 
 router.post('/register', async (req, res) =>{
   try {
-    var {name, email, password, color} = req.body
+    var {name, email, password, confirmPassword, color} = req.body
     if(await User.findOne({ email })) return res.status(400).send({error: 'User already exists'})
 
     //Validate name
@@ -33,6 +33,10 @@ router.post('/register', async (req, res) =>{
     if(!password) {
       return res.status(400).send({error: { password: 'Password is required!' }})
     }
+
+    if(!confirmPassword || password !== confirmPassword) {
+      return res.status(400).send({error: { confirmPassword: 'Confirm password must be the same as password!' }})
+    } 
 
     // Validate color
     if(!color) req.body.color = {

@@ -7,7 +7,8 @@ const bcrypt = require('bcryptjs')
 const joiUserSchema = Joi.object({
   name: Joi.string(),
   email: Joi.string().required().email(),
-  password: Joi.required(),
+  password: Joi.string().required(),
+  confirmPassword: Joi.string(),
   color: Joi.object().required()
 })
 
