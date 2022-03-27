@@ -18,12 +18,29 @@ function generateToken (params = {}) {
 
 router.post('/register', async (req, res) =>{
   try {
-    const email = req.body.email
+    var {name, email, password, color} = req.body
     if(await User.findOne({ email })) return res.status(400).send({error: 'User already exists'})
 
-    const user = await User.create(req.body)
+    //Validate name
+    if(!name) return res.status(400).send({ error: {name : 'Invalid name' } })
+    
+    //Validate email
+    if(!email) email = ''
+    var validateEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if(!email.match(validateEmail)) return res.status(400).send({ error: { email : 'Invalid email' } })
+        
+     //Validate password
+    if(!password) {
+      return res.status(400).send({error: { password: 'Password is required!' }})
+    }
 
-    user.password = undefined
+    // Validate color
+    if(!color) req.body.color = {
+      label: 'Verde',
+      value: '#27e8a7'
+    }
+    
+    const user = await User.create({name, email, password, color})
     
     return res.send({user, token: generateToken({ id: user._id }) })
   } catch (error) {
@@ -82,6 +99,7 @@ router.post('/authenticate', async (req, res) =>{
       return res.status(400).send({ error: 'Usuário não encontrado' })
     } 
     
+    console.log(await bcrypt.compare(password, user.password))
     if(!await bcrypt.compare(password, user.password)) {
       return res.status(400).send({ error: 'Senha inválida' })
     }  
