@@ -13,8 +13,11 @@ var joiRecordSchema = Joi.object({
   divinity: Joi.string(),
   size: Joi.string(),
   age: Joi.number().required().error(new Error('Age is required!')),
-  sex: Joi.string().required().error(new Error('Sex is required!')),
+  gender: Joi.string().required().error(new Error('Gender is required!')),
   weight: Joi.string(),
+  skin: Joi.string(),
+  height: Joi.string(),
+  eyes: Joi.string(),
 
   healPoints: Joi.number().required().error(new Error('Heal points is required!')),
   armorClass: Joi.number().required().error(new Error('Armor class is required!')),
@@ -37,6 +40,7 @@ var joiRecordSchema = Joi.object({
   grapple: Joi.number().required().error(new Error('Grapple is required!')),
   
   weapons: Joi.number(),
+  baseAttackBonus: Joi.number().required().error(new Error('Base attack bonus is required!')),
 
   equipament: Joi.number().required().error(new Error('Equipament is required!')),
 })
