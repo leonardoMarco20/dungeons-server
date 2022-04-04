@@ -11,6 +11,7 @@ exports.recordList = async function(req, res) {
 
   results.page = page
   results.limit = limit
+  results.count = 0
 
   results.next = {
     page: page + 1,
@@ -23,8 +24,10 @@ exports.recordList = async function(req, res) {
   }
   
   try {
+    results.count = await (await (await Record.find())).length
+
     if(page) {
-      results.results = await Record.find().then(results => results.slice(startIndex, endIndex))
+      results.results = await (await Record.find().then(results => results.reverse().slice(startIndex, endIndex)))
       return res.status(200).json(results)
     }
     
